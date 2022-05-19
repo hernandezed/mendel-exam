@@ -1,18 +1,20 @@
 package com.edh.mendelexam.unit.ports;
 
+import com.edh.mendelexam.business.bos.CreateTransactionBo;
 import com.edh.mendelexam.business.bos.TransactionNodeBo;
 import com.edh.mendelexam.data_access.TransactionNode;
 import com.edh.mendelexam.data_access.TransactionNodeRepository;
 import com.edh.mendelexam.ports.TransactionNodePort;
-import com.edh.mendelexam.unit.ports.impl.TransactionNodePortImpl;
+import com.edh.mendelexam.ports.impl.TransactionNodePortImpl;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TransactionNodePortTest {
 
@@ -27,6 +29,7 @@ public class TransactionNodePortTest {
         Optional<TransactionNodeBo> transaction = transactionNodePort.findById(transactionId);
         TransactionNodeBo expectedTransaction = new TransactionNodeBo(transactionId, 20d, "type", Sets.newHashSet());
         assertThat(transaction.get()).usingRecursiveComparison().isEqualTo(expectedTransaction);
+        verify(transactionNodeRepository).findById(transactionId);
     }
 
     @Test
@@ -35,6 +38,7 @@ public class TransactionNodePortTest {
         when(transactionNodeRepository.findById(transactionId)).thenReturn(Optional.empty());
         Optional<TransactionNodeBo> transaction = transactionNodePort.findById(transactionId);
         assertThat(transaction).isEmpty();
+        verify(transactionNodeRepository).findById(transactionId);
     }
 
     @Test
@@ -53,5 +57,34 @@ public class TransactionNodePortTest {
                 Sets.newHashSet(new TransactionNodeBo(2L, 30d, "type2",
                         Sets.newHashSet(new TransactionNodeBo(3L, 30d, "type2", Sets.newHashSet())))));
         assertThat(transaction.get()).usingRecursiveComparison().isEqualTo(expectedTransaction);
+        verify(transactionNodeRepository).findById(transactionId);
+    }
+
+    @Test
+    void getIdByType_mustCallRepository() {
+        String type = "type";
+        HashSet<Long> transactionIds = Sets.newHashSet(1L, 2L, 3L);
+        when(transactionNodeRepository.getIdByType(type)).thenReturn(transactionIds);
+
+        Set<Long> resultTransactionIds = transactionNodePort.getIdByType(type);
+
+        assertThat(resultTransactionIds).containsAll(transactionIds);
+        verify(transactionNodeRepository).getIdByType(type);
+    }
+
+    @Test
+    void save_withTransactionPersistedWithChilds_mustCallRepositoryWithEntity() {
+        CreateTransactionBo createTransactionBo = new CreateTransactionBo(1L, 20d, null, "type");
+        TransactionNode transactionEntity = new TransactionNode(1L, 20d, null, "type");
+        TransactionNode mockResultTransactionEntity = new TransactionNode(1L, 20d, null, "type");
+        mockResultTransactionEntity.addChild(new TransactionNode(2L, 30d, null, "type"));
+
+        when(transactionNodeRepository.save(transactionEntity)).thenReturn(mockResultTransactionEntity);
+
+        TransactionNodeBo resultTransaction = transactionNodePort.save(createTransactionBo);
+        TransactionNodeBo expectedTransactionBo = new TransactionNodeBo(1L, 20d, "type",
+                Sets.newHashSet(new TransactionNodeBo(2L, 30d, "type", Sets.newHashSet())));
+        assertThat(resultTransaction).usingRecursiveComparison().isEqualTo(expectedTransactionBo);
+        verify(transactionNodeRepository).save(transactionEntity);
     }
 }

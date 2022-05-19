@@ -48,7 +48,7 @@ public class TransactionNodeRepositoryImpl implements TransactionNodeRepository 
     }
 
     @Override
-    public Set<Long> getIdByCategory(String type) {
+    public Set<Long> getIdByType(String type) {
         return Optional.ofNullable(transactionsTypes.get(type)).orElse(new HashSet<>());
     }
 

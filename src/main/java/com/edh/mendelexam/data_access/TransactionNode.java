@@ -65,4 +65,28 @@ public class TransactionNode {
     public void removeChild(TransactionNode transactionNode) {
         this.childs.remove(transactionNode);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TransactionNode that = (TransactionNode) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
+        if (parentId != null ? !parentId.equals(that.parentId) : that.parentId != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        return childs != null ? childs.equals(that.childs) : that.childs == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (amount != null ? amount.hashCode() : 0);
+        result = 31 * result + (parentId != null ? parentId.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (childs != null ? childs.hashCode() : 0);
+        return result;
+    }
 }

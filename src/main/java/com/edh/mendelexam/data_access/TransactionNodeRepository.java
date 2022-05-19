@@ -6,7 +6,7 @@ import java.util.Set;
 public interface TransactionNodeRepository {
     TransactionNode save(TransactionNode transactionNode);
 
-    Set<Long> getIdByCategory(String type);
+    Set<Long> getIdByType(String type);
 
     Optional<TransactionNode> findById(Long id);
 }

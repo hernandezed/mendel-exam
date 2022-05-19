@@ -126,14 +126,14 @@ public class TransactionNodeRepositoryTest {
         Set<Long> ids = Sets.newHashSet(1L, 2L, 4L, 20L);
         transactionsTypes.put("type", ids);
 
-        Set<Long> responseIds = transactionNodeRepository.getIdByCategory("type");
+        Set<Long> responseIds = transactionNodeRepository.getIdByType("type");
 
         assertThat(responseIds).isEqualTo(ids);
     }
 
     @Test
     void getIdByType_whenTypeNotExists_mustReturnEmptyList() {
-        assertThat(transactionNodeRepository.getIdByCategory("type")).isEmpty();
+        assertThat(transactionNodeRepository.getIdByType("type")).isEmpty();
     }
 
     @Test
