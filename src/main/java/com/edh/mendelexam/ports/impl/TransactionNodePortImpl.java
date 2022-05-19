@@ -40,6 +40,11 @@ public class TransactionNodePortImpl implements TransactionNodePort {
         }
     }
 
+    @Override
+    public boolean exists(long id) {
+        return transactionNodeRepository.exists(id);
+    }
+
     private static TransactionNode map(CreateTransactionBo transactionNodeBo) {
         return new TransactionNode(transactionNodeBo.getId(), transactionNodeBo.getAmount(), transactionNodeBo.getParentId(), transactionNodeBo.getType());
     }

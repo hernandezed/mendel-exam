@@ -100,4 +100,20 @@ public class TransactionNodePortTest {
                 .hasCauseExactlyInstanceOf(IllegalStateException.class);
 
     }
+
+    @Test
+    void exists_whenTransactionExists_mustCallRepositoryExistsAndReturnTrue() {
+        when(transactionNodeRepository.exists(1L)).thenReturn(true);
+
+        assertThat(transactionNodePort.exists(1L)).isTrue();
+        verify(transactionNodeRepository).exists(1L);
+    }
+
+    @Test
+    void exists_whenTransactionNoExists_mustCallRepositoryExistsAndReturnFalse() {
+        when(transactionNodeRepository.exists(1L)).thenReturn(false);
+
+        assertThat(transactionNodePort.exists(1L)).isFalse();
+        verify(transactionNodeRepository).exists(1L);
+    }
 }
