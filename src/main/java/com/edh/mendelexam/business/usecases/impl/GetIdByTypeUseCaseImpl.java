@@ -1,6 +1,6 @@
 package com.edh.mendelexam.business.usecases.impl;
 
-import com.edh.mendelexam.business.exception.NotSuchTypeException;
+import com.edh.mendelexam.business.exception.NoSuchTypeException;
 import com.edh.mendelexam.business.usecases.GetIdByTypeUseCase;
 import com.edh.mendelexam.ports.TransactionNodePort;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class GetIdByTypeUseCaseImpl implements GetIdByTypeUseCase {
         Set<Long> result = transactionNodePort.getIdByType(type);
         if (result.isEmpty()) {
             logger.error("Cannot found ids for type {}", type);
-            throw new NotSuchTypeException();
+            throw new NoSuchTypeException();
         }
         return result;
     }

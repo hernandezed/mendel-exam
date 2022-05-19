@@ -2,7 +2,7 @@ package com.edh.mendelexam.unit.ports;
 
 import com.edh.mendelexam.business.bos.CreateTransactionBo;
 import com.edh.mendelexam.business.bos.TransactionNodeBo;
-import com.edh.mendelexam.business.exception.NotSuchParentException;
+import com.edh.mendelexam.business.exception.NoSuchParentException;
 import com.edh.mendelexam.data_access.TransactionNode;
 import com.edh.mendelexam.data_access.TransactionNodeRepository;
 import com.edh.mendelexam.ports.TransactionNodePort;
@@ -96,7 +96,7 @@ public class TransactionNodePortTest {
         TransactionNode transactionEntity = new TransactionNode(1L, 20d, 30L, "type");
         when(transactionNodeRepository.save(transactionEntity)).thenThrow(IllegalStateException.class);
 
-        assertThatThrownBy(() -> transactionNodePort.save(createTransactionBo)).isInstanceOf(NotSuchParentException.class)
+        assertThatThrownBy(() -> transactionNodePort.save(createTransactionBo)).isInstanceOf(NoSuchParentException.class)
                 .hasCauseExactlyInstanceOf(IllegalStateException.class);
 
     }

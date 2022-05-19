@@ -2,7 +2,7 @@ package com.edh.mendelexam.unit.business.usecase;
 
 import com.edh.mendelexam.business.bos.CreateTransactionBo;
 import com.edh.mendelexam.business.bos.TransactionNodeBo;
-import com.edh.mendelexam.business.exception.NotSuchParentException;
+import com.edh.mendelexam.business.exception.NoSuchParentException;
 import com.edh.mendelexam.business.usecases.CreateTransactionUseCase;
 import com.edh.mendelexam.business.usecases.impl.CreateTransactionUseCaseImpl;
 import com.edh.mendelexam.ports.TransactionNodePort;
@@ -40,9 +40,9 @@ public class CreateTransactionUseCaseTest {
             CreateTransactionBo createTransactionBo = new CreateTransactionBo(1L, 20d, 50L, "type");
             loggerMockedStatic.when(() -> LoggerFactory.getLogger(CreateTransactionUseCaseImpl.class)).thenReturn(logger);
             CreateTransactionUseCase createTransactionUseCase = new CreateTransactionUseCaseImpl(transactionNodePort);
-            when(transactionNodePort.save(any())).thenThrow(new NotSuchParentException(new IllegalStateException()));
-            assertThatThrownBy(() -> createTransactionUseCase.execute(createTransactionBo)).isInstanceOf(NotSuchParentException.class);
-            verify(logger).error(eq("Error creating transaxtion with id=[{}]"), eq(1L), any(NotSuchParentException.class));
+            when(transactionNodePort.save(any())).thenThrow(new NoSuchParentException(new IllegalStateException()));
+            assertThatThrownBy(() -> createTransactionUseCase.execute(createTransactionBo)).isInstanceOf(NoSuchParentException.class);
+            verify(logger).error(eq("Error creating transaxtion with id=[{}]"), eq(1L), any(NoSuchParentException.class));
         }
     }
 }

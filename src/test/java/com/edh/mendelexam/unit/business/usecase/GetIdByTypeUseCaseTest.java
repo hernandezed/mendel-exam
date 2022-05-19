@@ -1,9 +1,7 @@
 package com.edh.mendelexam.unit.business.usecase;
 
-import com.edh.mendelexam.business.exception.NotSuchParentException;
-import com.edh.mendelexam.business.exception.NotSuchTypeException;
+import com.edh.mendelexam.business.exception.NoSuchTypeException;
 import com.edh.mendelexam.business.usecases.GetIdByTypeUseCase;
-import com.edh.mendelexam.business.usecases.impl.CreateTransactionUseCaseImpl;
 import com.edh.mendelexam.business.usecases.impl.GetIdByTypeUseCaseImpl;
 import com.edh.mendelexam.ports.TransactionNodePort;
 
@@ -42,7 +40,7 @@ public class GetIdByTypeUseCaseTest {
             when(transactionNodePort.getIdByType(any())).thenReturn(new HashSet<>());
             GetIdByTypeUseCase getIdByTypeUseCase = new GetIdByTypeUseCaseImpl(transactionNodePort);
             assertThatThrownBy(() -> getIdByTypeUseCase.execute("anyType"))
-                    .isInstanceOf(NotSuchTypeException.class);
+                    .isInstanceOf(NoSuchTypeException.class);
             verify(transactionNodePort).getIdByType("anyType");
             verify(logger).error("Cannot found ids for type {}", "anyType");
         }
