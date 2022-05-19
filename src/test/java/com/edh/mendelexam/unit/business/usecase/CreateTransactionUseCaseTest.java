@@ -26,6 +26,7 @@ public class CreateTransactionUseCaseTest {
         CreateTransactionBo createTransactionBo = new CreateTransactionBo(1L, 20d, null, "type");
         TransactionNodeBo transactionNodeBo = new TransactionNodeBo(1L, 20d, "type", Sets.newHashSet());
         when(transactionNodePort.save(createTransactionBo)).thenReturn(transactionNodeBo);
+        when(transactionNodePort.exists(1L)).thenReturn(false);
 
         TransactionNodeBo result = createTransactionUseCase.execute(createTransactionBo);
 
@@ -41,6 +42,7 @@ public class CreateTransactionUseCaseTest {
             loggerMockedStatic.when(() -> LoggerFactory.getLogger(CreateTransactionUseCaseImpl.class)).thenReturn(logger);
             CreateTransactionUseCase createTransactionUseCase = new CreateTransactionUseCaseImpl(transactionNodePort);
             when(transactionNodePort.save(any())).thenThrow(new NoSuchParentException(new IllegalStateException()));
+            when(transactionNodePort.exists(1L)).thenReturn(false);
             assertThatThrownBy(() -> createTransactionUseCase.execute(createTransactionBo)).isInstanceOf(NoSuchParentException.class);
             verify(logger).error(eq("Error creating transaction with id=[{}]"), eq(1L), any(NoSuchParentException.class));
         }
@@ -51,6 +53,13 @@ public class CreateTransactionUseCaseTest {
         CreateTransactionBo createTransactionBo = new CreateTransactionBo(1L, 20d, null, "type");
         TransactionNodeBo transactionNodeBo = new TransactionNodeBo(1L, 20d, "type", Sets.newHashSet());
         when(transactionNodePort.save(createTransactionBo)).thenReturn(transactionNodeBo);
+        when(transactionNodePort.exists(1L)).thenReturn(true);
+        TransactionNodeBo result = createTransactionUseCase.execute(createTransactionBo);
+        TransactionNodeBo exptectedTransactionNodeBo = new TransactionNodeBo(1L, 20d, "type", Sets.newHashSet());
+        exptectedTransactionNodeBo.wasUpdate();
 
+        assertThat(result).usingRecursiveComparison().isEqualTo(exptectedTransactionNodeBo);
+        verify(transactionNodePort).exists(1L);
+        verify(transactionNodePort).save(createTransactionBo);
     }
 }

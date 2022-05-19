@@ -21,7 +21,12 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
     @Override
     public TransactionNodeBo execute(CreateTransactionBo createTransactionBo) {
         try {
-            return transactionNodePort.save(createTransactionBo);
+            boolean preExist = transactionNodePort.exists(createTransactionBo.getId());
+            TransactionNodeBo result = transactionNodePort.save(createTransactionBo);
+            if (preExist) {
+                result.wasUpdate();
+            }
+            return result;
         } catch (NoSuchParentException ex) {
             logger.error("Error creating transaction with id=[{}]", createTransactionBo.getId(), ex);
             throw ex;

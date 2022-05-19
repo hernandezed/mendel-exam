@@ -1,6 +1,5 @@
 package com.edh.mendelexam.business.bos;
 
-import java.util.List;
 import java.util.Set;
 
 public class TransactionNodeBo {
@@ -8,6 +7,7 @@ public class TransactionNodeBo {
     private final double amount;
     private final String type;
     private final Set<TransactionNodeBo> childs;
+    private boolean update = false;
 
     public TransactionNodeBo(Long id, double amount, String type, Set<TransactionNodeBo> childs) {
         this.id = id;
@@ -38,7 +38,11 @@ public class TransactionNodeBo {
         return type;
     }
 
-    public Set<TransactionNodeBo> getChilds() {
-        return childs;
+    public void wasUpdate() {
+        this.update = true;
+    }
+
+    public boolean isUpdate() {
+        return update;
     }
 }
