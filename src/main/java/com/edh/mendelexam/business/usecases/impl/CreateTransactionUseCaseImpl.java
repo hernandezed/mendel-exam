@@ -23,7 +23,7 @@ public class CreateTransactionUseCaseImpl implements CreateTransactionUseCase {
         try {
             return transactionNodePort.save(createTransactionBo);
         } catch (NoSuchParentException ex) {
-            logger.error("Error creating transaxtion with id=[{}]", createTransactionBo.getId(), ex);
+            logger.error("Error creating transaction with id=[{}]", createTransactionBo.getId(), ex);
             throw ex;
         }
     }

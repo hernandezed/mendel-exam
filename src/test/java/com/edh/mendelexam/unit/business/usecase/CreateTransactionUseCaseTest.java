@@ -42,7 +42,7 @@ public class CreateTransactionUseCaseTest {
             CreateTransactionUseCase createTransactionUseCase = new CreateTransactionUseCaseImpl(transactionNodePort);
             when(transactionNodePort.save(any())).thenThrow(new NoSuchParentException(new IllegalStateException()));
             assertThatThrownBy(() -> createTransactionUseCase.execute(createTransactionBo)).isInstanceOf(NoSuchParentException.class);
-            verify(logger).error(eq("Error creating transaxtion with id=[{}]"), eq(1L), any(NoSuchParentException.class));
+            verify(logger).error(eq("Error creating transaction with id=[{}]"), eq(1L), any(NoSuchParentException.class));
         }
     }
 }
