@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 public class TransactionNodeBo {
-    private Long id;
-    private double amount;
-    private String type;
-    private Set<TransactionNodeBo> childs;
+    private final Long id;
+    private final double amount;
+    private final String type;
+    private final Set<TransactionNodeBo> childs;
 
     public TransactionNodeBo(Long id, double amount, String type, Set<TransactionNodeBo> childs) {
         this.id = id;

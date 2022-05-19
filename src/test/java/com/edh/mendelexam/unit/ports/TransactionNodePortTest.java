@@ -2,6 +2,7 @@ package com.edh.mendelexam.unit.ports;
 
 import com.edh.mendelexam.business.bos.CreateTransactionBo;
 import com.edh.mendelexam.business.bos.TransactionNodeBo;
+import com.edh.mendelexam.business.exception.NotSuchParentException;
 import com.edh.mendelexam.data_access.TransactionNode;
 import com.edh.mendelexam.data_access.TransactionNodeRepository;
 import com.edh.mendelexam.ports.TransactionNodePort;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 public class TransactionNodePortTest {
@@ -86,5 +88,16 @@ public class TransactionNodePortTest {
                 Sets.newHashSet(new TransactionNodeBo(2L, 30d, "type", Sets.newHashSet())));
         assertThat(resultTransaction).usingRecursiveComparison().isEqualTo(expectedTransactionBo);
         verify(transactionNodeRepository).save(transactionEntity);
+    }
+
+    @Test
+    void save_withInvalidParentId_mustThrowBusinessException() {
+        CreateTransactionBo createTransactionBo = new CreateTransactionBo(1L, 20d, 30L, "type");
+        TransactionNode transactionEntity = new TransactionNode(1L, 20d, 30L, "type");
+        when(transactionNodeRepository.save(transactionEntity)).thenThrow(IllegalStateException.class);
+
+        assertThatThrownBy(() -> transactionNodePort.save(createTransactionBo)).isInstanceOf(NotSuchParentException.class)
+                .hasCauseExactlyInstanceOf(IllegalStateException.class);
+
     }
 }

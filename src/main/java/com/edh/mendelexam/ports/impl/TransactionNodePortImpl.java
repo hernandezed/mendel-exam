@@ -2,6 +2,7 @@ package com.edh.mendelexam.ports.impl;
 
 import com.edh.mendelexam.business.bos.CreateTransactionBo;
 import com.edh.mendelexam.business.bos.TransactionNodeBo;
+import com.edh.mendelexam.business.exception.NotSuchParentException;
 import com.edh.mendelexam.data_access.TransactionNode;
 import com.edh.mendelexam.data_access.TransactionNodeRepository;
 import com.edh.mendelexam.ports.TransactionNodePort;
@@ -30,7 +31,11 @@ public class TransactionNodePortImpl implements TransactionNodePort {
 
     @Override
     public TransactionNodeBo save(CreateTransactionBo transactionBo) {
-        return map(transactionNodeRepository.save(map(transactionBo)));
+        try {
+            return map(transactionNodeRepository.save(map(transactionBo)));
+        } catch (IllegalStateException ex) {
+            throw new NotSuchParentException(ex);
+        }
     }
 
     private static TransactionNode map(CreateTransactionBo transactionNodeBo) {

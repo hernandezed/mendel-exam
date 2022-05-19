@@ -1,9 +1,5 @@
 package com.edh.mendelexam.business.bos;
 
-import com.edh.mendelexam.data_access.TransactionNode;
-
-import java.util.Set;
-
 public class CreateTransactionBo {
     private final Long id;
     private final Double amount;
