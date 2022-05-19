@@ -8,50 +8,48 @@ import java.util.*;
 public class TransactionNodeRepositoryImpl implements TransactionNodeRepository {
 
     private final Map<Long, TransactionNode> transactions;
-    private final Map<String, Set<Long>> transactionsCategories;
+    private final Map<String, Set<Long>> transactionsTypes;
 
-    public TransactionNodeRepositoryImpl(Map<Long, TransactionNode> transactions, Map<String, Set<Long>> transactionsCategories) {
+    public TransactionNodeRepositoryImpl(Map<Long, TransactionNode> transactions, Map<String, Set<Long>> transactionsTypes) {
         this.transactions = transactions;
-        this.transactionsCategories = transactionsCategories;
+        this.transactionsTypes = transactionsTypes;
     }
 
     @Override
     public TransactionNode save(TransactionNode transactionNode) {
-
-        if (transactionNode.getParentId() != null) {
-            if (!transactions.containsKey(transactionNode.getParentId())) {
-                throw new IllegalStateException("Parent transaction must exists");
-            }
-            transactions.get(transactionNode.getParentId()).addChild(transactionNode);
-
-        }
         TransactionNode oldTransaction = transactions.get(transactionNode.getId());
+        manageRelations(transactionNode, oldTransaction);
+        manageCategory(transactionNode, oldTransaction);
+        transactions.put(transactionNode.getId(), transactionNode);
+        return transactionNode;
+    }
 
+    private void manageCategory(TransactionNode transactionNode, TransactionNode oldTransaction) {
         if (oldTransaction != null) {
-            if (!transactionNode.getType().equals(oldTransaction.getType())) {
-                transactionsCategories.get(oldTransaction.getType()).remove(oldTransaction.getId());
-            }
+            Optional.ofNullable(transactionsTypes.get(oldTransaction.getType()))
+                    .ifPresent(type -> type.removeIf((id) -> id.equals(oldTransaction.getId())));
             transactionNode.setChilds(oldTransaction.getChilds());
+        }
+        transactionsTypes.putIfAbsent(transactionNode.getType(), new HashSet<>());
+        transactionsTypes.get(transactionNode.getType()).add(transactionNode.getId());
+    }
 
-            if (oldTransaction.getParentId() != null && !Objects.equals(oldTransaction.getParentId(), transactionNode.getParentId())) {
+    private void manageRelations(TransactionNode transactionNode, TransactionNode oldTransaction) {
+        if (transactionNode.getParentId() != null) {
+            TransactionNode parent = Optional.ofNullable(transactions.get(transactionNode.getParentId()))
+                    .orElseThrow(() -> new IllegalStateException("Parent transaction must exists"));
+            parent.addChild(transactionNode);
+
+            if (!Objects.isNull(oldTransaction) && !Objects.isNull(oldTransaction.getParentId()) && !Objects.equals(oldTransaction.getParentId(), transactionNode.getParentId())) {
                 TransactionNode oldParent = transactions.get(oldTransaction.getParentId());
                 oldParent.removeChild(oldTransaction);
             }
         }
-
-        if (!transactionsCategories.containsKey(transactionNode.getType())) {
-            transactionsCategories.put(transactionNode.getType(), new HashSet<>());
-        }
-
-        transactions.put(transactionNode.getId(), transactionNode);
-        transactionsCategories.get(transactionNode.getType()).add(transactionNode.getId());
-
-        return transactionNode;
     }
 
     @Override
     public Set<Long> getIdByCategory(String type) {
-        return Optional.ofNullable(transactionsCategories.get(type)).orElse(new HashSet<>());
+        return Optional.ofNullable(transactionsTypes.get(type)).orElse(new HashSet<>());
     }
 
     @Override
