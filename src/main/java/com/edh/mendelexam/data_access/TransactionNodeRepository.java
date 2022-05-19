@@ -9,4 +9,6 @@ public interface TransactionNodeRepository {
     Set<Long> getIdByType(String type);
 
     Optional<TransactionNode> findById(Long id);
+
+    boolean exists(Long id);
 }

@@ -58,4 +58,9 @@ public class TransactionNodeRepositoryImpl implements TransactionNodeRepository 
     public Optional<TransactionNode> findById(Long id) {
         return Optional.ofNullable(transactions.get(id));
     }
+
+    @Override
+    public boolean exists(Long id) {
+        return transactions.containsKey(id);
+    }
 }

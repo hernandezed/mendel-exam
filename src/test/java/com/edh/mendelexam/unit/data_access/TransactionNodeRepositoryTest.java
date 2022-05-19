@@ -150,4 +150,16 @@ public class TransactionNodeRepositoryTest {
     void getById_whenTransactionNotExists_mustReturnEmtpyOptional() {
         assertThat(transactionNodeRepository.findById(1L)).isEmpty();
     }
+
+    @Test
+    void exists_whenTransactionExists_mustReturnTrue() {
+        TransactionNode transactionNode = new TransactionNode(1L, 40d, null, "type");
+        transactions.put(1L, transactionNode);
+        assertThat(transactionNodeRepository.exists(1L)).isTrue();
+    }
+
+    @Test
+    void exists_whenTransactionNotExists_mustReturnFalse() {
+        assertThat(transactionNodeRepository.exists(1L)).isFalse();
+    }
 }

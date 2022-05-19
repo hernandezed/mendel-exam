@@ -45,4 +45,12 @@ public class CreateTransactionUseCaseTest {
             verify(logger).error(eq("Error creating transaction with id=[{}]"), eq(1L), any(NoSuchParentException.class));
         }
     }
+
+    @Test
+    void execute_whenPreexistsTransaction_mustUpdateTransactionAndAddFlagUpdated() {
+        CreateTransactionBo createTransactionBo = new CreateTransactionBo(1L, 20d, null, "type");
+        TransactionNodeBo transactionNodeBo = new TransactionNodeBo(1L, 20d, "type", Sets.newHashSet());
+        when(transactionNodePort.save(createTransactionBo)).thenReturn(transactionNodeBo);
+
+    }
 }
