@@ -6,11 +6,13 @@ import com.edh.mendelexam.business.exception.NoSuchParentException;
 import com.edh.mendelexam.data_access.TransactionNode;
 import com.edh.mendelexam.data_access.TransactionNodeRepository;
 import com.edh.mendelexam.ports.TransactionNodePort;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class TransactionNodePortImpl implements TransactionNodePort {
     TransactionNodeRepository transactionNodeRepository;
 

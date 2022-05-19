@@ -2,9 +2,11 @@ package com.edh.mendelexam.data_access.impl;
 
 import com.edh.mendelexam.data_access.TransactionNode;
 import com.edh.mendelexam.data_access.TransactionNodeRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Repository
 public class TransactionNodeRepositoryImpl implements TransactionNodeRepository {
 
     private final Map<Long, TransactionNode> transactions;

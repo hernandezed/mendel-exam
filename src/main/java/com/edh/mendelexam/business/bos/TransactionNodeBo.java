@@ -26,13 +26,19 @@ public class TransactionNodeBo {
         return 0;
     }
 
-    @Override
-    public String toString() {
-        return "TransactionNodeBo{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", type='" + type + '\'' +
-                ", childs=" + childs +
-                '}';
+    public Long getId() {
+        return id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Set<TransactionNodeBo> getChilds() {
+        return childs;
     }
 }
