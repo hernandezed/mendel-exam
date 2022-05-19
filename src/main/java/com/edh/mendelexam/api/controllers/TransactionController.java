@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController {
@@ -21,7 +23,7 @@ public class TransactionController {
     }
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponseDto> createOrUpdate(@PathVariable Long transactionId, @RequestBody CreateTransactionDto createTransactionDto) {
+    public ResponseEntity<TransactionResponseDto> createOrUpdate(@PathVariable Long transactionId, @Valid @RequestBody CreateTransactionDto createTransactionDto) {
         TransactionNodeBo transactionNodeBo = createTransactionUseCase.execute(map(transactionId, createTransactionDto));
         if (transactionNodeBo.isUpdate()) {
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);

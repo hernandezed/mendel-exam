@@ -50,4 +50,12 @@ public class TransactionControllerPutTransaction extends MendelExamApplicationTe
         assertThatJson(response.getBody()).isEqualTo(null);
     }
 
+    @Test
+    void putTransaction_withZeroAmountTransaction_mustReturn400HttpStatus() throws IOException {
+        String requestBody = FileReader.read("./src/test/resources/harness/requests/zeroAmountTransaction.json");
+        String url = "/transactions/1";
+        RequestEntity<String> request = RequestEntity.put(url).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).body(requestBody);
+        ResponseEntity<String> response = testRestTemplate.exchange(request, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
 }

@@ -1,7 +1,10 @@
 package com.edh.mendelexam.api.dtos.requests;
 
+import com.edh.mendelexam.api.validators.AboveZero;
+
 public class CreateTransactionDto {
 
+    @AboveZero
     private final double amount;
     private final String type;
 
