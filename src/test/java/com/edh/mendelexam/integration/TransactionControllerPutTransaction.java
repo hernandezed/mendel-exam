@@ -39,16 +39,15 @@ public class TransactionControllerPutTransaction extends MendelExamApplicationTe
     }
 
     @Test
-    void putTransaction_withPreexistedTransaction_mustReturn204HttpStatus() throws IOException {
-
+    void putTransaction_withPreexistedTransaction_mustReturn204HttpStatusWithoutBody() throws IOException {
         transactions.put(1L, new TransactionNode(1L, 20d, null, "transfer"));
-
         String requestBody = FileReader.read("./src/test/resources/harness/requests/validTransaction.json");
         String url = "/transactions/1";
         RequestEntity<String> request = RequestEntity.put(url).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE).body(requestBody);
         ResponseEntity<String> response = testRestTemplate.exchange(request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-        assertThatJson(response.getBody()).isEqualTo("");
+        assertThatJson(response.getBody()).isEqualTo(null);
     }
+
 }

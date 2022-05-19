@@ -23,6 +23,9 @@ public class TransactionController {
     @PutMapping("/{transactionId}")
     public ResponseEntity<TransactionResponseDto> createOrUpdate(@PathVariable Long transactionId, @RequestBody CreateTransactionDto createTransactionDto) {
         TransactionNodeBo transactionNodeBo = createTransactionUseCase.execute(map(transactionId, createTransactionDto));
+        if (transactionNodeBo.isUpdate()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(map(transactionNodeBo), HttpStatus.CREATED);
     }
 
