@@ -1,13 +1,18 @@
 package com.edh.mendelexam.business.bos;
 
 import java.util.List;
+import java.util.Set;
 
 public class TransactionNodeBo {
+    private Long id;
     private double amount;
-    private List<TransactionNodeBo> childs;
+    private String type;
+    private Set<TransactionNodeBo> childs;
 
-    public TransactionNodeBo(double amount, List<TransactionNodeBo> childs) {
+    public TransactionNodeBo(Long id, double amount, String type, Set<TransactionNodeBo> childs) {
+        this.id = id;
         this.amount = amount;
+        this.type = type;
         this.childs = childs;
     }
 
@@ -19,5 +24,15 @@ public class TransactionNodeBo {
         if (childs != null)
             return childs.stream().reduce(0d, (acc, node) -> acc + node.getTotal(), Double::sum);
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionNodeBo{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", type='" + type + '\'' +
+                ", childs=" + childs +
+                '}';
     }
 }

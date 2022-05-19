@@ -1,5 +1,7 @@
-package com.edh.mendelexam.data_access;
+package com.edh.mendelexam.unit.data_access;
 
+import com.edh.mendelexam.data_access.TransactionNode;
+import com.edh.mendelexam.data_access.TransactionNodeRepository;
 import com.edh.mendelexam.data_access.impl.TransactionNodeRepositoryImpl;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterEach;
