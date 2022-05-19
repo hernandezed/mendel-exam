@@ -1,4 +1,4 @@
-package com.edh.mendelexam.business.bo;
+package com.edh.mendelexam.business.bos;
 
 import org.junit.jupiter.api.Test;
 
