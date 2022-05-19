@@ -32,7 +32,7 @@ public class TransactionController {
     }
 
     private CreateTransactionBo map(Long id, CreateTransactionDto createTransactionDto) {
-        return new CreateTransactionBo(id, createTransactionDto.getAmount(), null, createTransactionDto.getType());
+        return new CreateTransactionBo(id, createTransactionDto.getAmount(), createTransactionDto.getParentId(), createTransactionDto.getType());
     }
 
     private TransactionResponseDto map(TransactionNodeBo transactionNodeBo) {

@@ -11,10 +11,12 @@ public class CreateTransactionDto {
     private final double amount;
     @NotEmpty
     private final String type;
+    private final Long parentId;
 
-    public CreateTransactionDto(double amount, String type) {
+    public CreateTransactionDto(double amount, String type, Long parentId) {
         this.amount = amount;
         this.type = type;
+        this.parentId = parentId;
     }
 
     public double getAmount() {
@@ -23,5 +25,9 @@ public class CreateTransactionDto {
 
     public String getType() {
         return type;
+    }
+
+    public Long getParentId() {
+        return parentId;
     }
 }
