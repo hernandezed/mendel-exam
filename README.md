@@ -11,12 +11,14 @@ Se debe contar con la variable de entorno APPLICATION_PORT para poder ejecutar e
 
 ## Swagger  
 La aplicación disponibiliza (mediante Spring docs) una vista para acceder a la documentación de swagger generada.
+
 [Swagger](http://localhost:{APPLICATION_PORT}/swagger-ui.html)
 
 ## Representación de las transacciones en la capa de persistencia
 Se decidió hacer uso de un HashMap para persistir las transacciones con la relación transaction-id -> transaction para simplificar su búsqueda en lo que a complejidad temporal se refiere (O(1)).
 La misma decisión se tomo respecto a los tipos de transacciones, guardando la relacion type -> transaction-ids.
 Por otro lado, para representar una transaccion, se decidio utilizar el patron de diseño Composite, como se ve en el siguiente diagrama:
+
 ![transactionNode](https://github.com/hernandezed/mendel-exam/blob/master/docs/transactionNode.png)
 
 ## Arquitectura
