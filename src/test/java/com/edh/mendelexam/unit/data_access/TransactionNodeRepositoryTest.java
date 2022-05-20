@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TransactionNodeRepositoryTest {
 
-    private Map<Long, TransactionNode> transactions = new HashMap<>();
-    private Map<String, Set<Long>> transactionsTypes = new HashMap<>();
-    private TransactionNodeRepository transactionNodeRepository = new TransactionNodeRepositoryImpl(transactions, transactionsTypes);
+    private final Map<Long, TransactionNode> transactions = new HashMap<>();
+    private final Map<String, Set<Long>> transactionsTypes = new HashMap<>();
+    private final TransactionNodeRepository transactionNodeRepository = new TransactionNodeRepositoryImpl(transactions, transactionsTypes);
 
     @AfterEach
     void tearDown() {
@@ -30,7 +30,7 @@ public class TransactionNodeRepositoryTest {
 
     @Test
     void save_whenMapsAreEmptyAndNotHaveParent_thenAddTransactionNodeAndCategory() {
-        Long transactionId = 1l;
+        Long transactionId = 1L;
         TransactionNode transactionNode = new TransactionNode(transactionId, 20d, null, "type");
         TransactionNode saved = transactionNodeRepository.save(transactionNode);
 
@@ -41,9 +41,9 @@ public class TransactionNodeRepositoryTest {
 
     @Test
     void save_whenTransactionExists_mustUpdateTransaction() {
-        Long transactionId = 2l;
+        Long transactionId = 2L;
         TransactionNode transactionNode = new TransactionNode(transactionId, 20d, null, "type");
-        transactions.put(2l, new TransactionNode(transactionId, 40d, null, "type"));
+        transactions.put(transactionId, new TransactionNode(transactionId, 40d, null, "type"));
         transactionsTypes.put("type", Sets.newHashSet(transactionId));
 
         TransactionNode saved = transactionNodeRepository.save(transactionNode);
@@ -55,9 +55,9 @@ public class TransactionNodeRepositoryTest {
 
     @Test
     void save_whenTransactionExistsWithDifferentType_mustUpdateTransactionAndChangeTypeMap() {
-        Long transactionId = 2l;
+        Long transactionId = 2L;
         TransactionNode transactionNode = new TransactionNode(transactionId, 20d, null, "newType");
-        transactions.put(2l, new TransactionNode(transactionId, 40d, null, "type"));
+        transactions.put(transactionId, new TransactionNode(transactionId, 40d, null, "type"));
         transactionsTypes.put("type", Sets.newHashSet(transactionId));
 
         TransactionNode saved = transactionNodeRepository.save(transactionNode);
