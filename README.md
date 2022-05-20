@@ -41,6 +41,7 @@ Por otro lado los casos de uso, nacen de implementar los principios de Responsab
 Por ultimo, la existencia de los BOs tiene dos motivos:
 1. Encapsular las reglas de negocio
 2. Servir de interfaz para acceder a los datos recibidos via API o obtenidos desde la base de datos.
+Cualquier cambio que sufran estos objetos, deben de administrarse desde ellos mismos (aplicando el patron Experto de la informacion)
 
 
  
