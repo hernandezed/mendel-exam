@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  transaction-api:
+    build: .
+    ports:
+      - "${APPLICATION_PORT}:8080"
