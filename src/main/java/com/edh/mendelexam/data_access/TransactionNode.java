@@ -89,15 +89,4 @@ public class TransactionNode {
         result = 31 * result + (childs != null ? childs.hashCode() : 0);
         return result;
     }
-
-    @Override
-    public String toString() {
-        return "TransactionNode{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", parentId=" + parentId +
-                ", type='" + type + '\'' +
-                ", childs=" + childs +
-                '}';
-    }
 }
