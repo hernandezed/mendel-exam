@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 public class CreateTransactionDto {
 
     @AboveZero
+    @NotNull
     private final double amount;
     @NotEmpty
     private final String type;
