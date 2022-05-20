@@ -16,7 +16,7 @@ import java.util.Map;
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TransactionControllerPutTransaction extends MendelExamApplicationTests {
+public class TransactionControllerPutTransactionIntegrationTest extends MendelExamApplicationTests {
 
     @Autowired
     TestRestTemplate testRestTemplate;
