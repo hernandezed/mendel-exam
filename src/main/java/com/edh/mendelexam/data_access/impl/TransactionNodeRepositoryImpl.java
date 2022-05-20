@@ -42,7 +42,7 @@ public class TransactionNodeRepositoryImpl implements TransactionNodeRepository 
                     .orElseThrow(() -> new IllegalStateException("Parent transaction must exists"));
             parent.addChild(transactionNode);
 
-            if (!Objects.isNull(oldTransaction) && !Objects.isNull(oldTransaction.getParentId()) && !Objects.equals(oldTransaction.getParentId(), transactionNode.getParentId())) {
+            if (!Objects.isNull(oldTransaction) && !Objects.isNull(oldTransaction.getParentId())) {
                 TransactionNode oldParent = transactions.get(oldTransaction.getParentId());
                 oldParent.removeChild(oldTransaction);
             }

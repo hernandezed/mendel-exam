@@ -114,6 +114,38 @@ public class TransactionNodeRepositoryTest {
     }
 
     @Test
+    void save_whenExistsTransactionAndSameParent_updateTransactionAndRemoveFromOriginalChild() {
+        TransactionNode transactionNode = new TransactionNode(1L, 40d, null, "type");
+        TransactionNode child = new TransactionNode(3L, 40d, 1L, "type");
+        transactionNode.addChild(child);
+        transactions.put(1L, transactionNode);
+        transactions.put(2L, new TransactionNode(2L, 40d, null, "type"));
+        transactions.put(3L, child);
+
+        TransactionNode updateTransactionNode = new TransactionNode(3L, 41d, 1L, "type");
+
+        transactionNodeRepository.save(updateTransactionNode);
+
+        assertThat(transactions.get(1L).getChilds()).containsExactly(updateTransactionNode);
+    }
+
+    @Test
+    void save_whenExistsTransactionWithoutParent_updateTransactionAndRemoveFromOriginalChild() {
+        TransactionNode transactionNode = new TransactionNode(1L, 40d, null, "type");
+        TransactionNode child = new TransactionNode(3L, 40d, null, "type");
+        transactions.put(1L, transactionNode);
+        transactions.put(2L, new TransactionNode(2L, 40d, null, "type"));
+        transactions.put(3L, child);
+
+        TransactionNode updateTransactionNode = new TransactionNode(3L, 41d, 2L, "type");
+
+        transactionNodeRepository.save(updateTransactionNode);
+
+        assertThat(transactions.get(1L).getChilds()).isEmpty();
+        assertThat(transactions.get(2L).getChilds()).containsExactly(updateTransactionNode);
+    }
+
+    @Test
     void save_whenTransactionHasParentAndParentNotExists_mustThrowException() {
         TransactionNode transactionNode = new TransactionNode(3L, 20d, 1L, "newType");
 
