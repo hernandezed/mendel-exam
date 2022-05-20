@@ -14,6 +14,19 @@ La aplicación disponibiliza (mediante Spring docs) una vista para acceder a la 
 
 [Swagger](http://localhost:{APPLICATION_PORT}/swagger-ui.html)
 
+## Jacoco
+Se cuentan con reportes de coverage de Jacoco. Los mismos excluyen clases que no tiene sentido aporten al coverage (Clases con solo setters y getters o configuracion). Se debe ejecutar 
+
+```
+mvn clean verify
+```
+
+Los mismos se encuentran en /target/size/index.html
+
+```
+/target/size/index.html
+```
+
 ## Representación de las transacciones en la capa de persistencia
 Se decidió hacer uso de un HashMap para persistir las transacciones con la relación transaction-id -> transaction para simplificar su búsqueda en lo que a complejidad temporal se refiere (O(1)).
 La misma decisión se tomo respecto a los tipos de transacciones, guardando la relacion type -> transaction-ids.
