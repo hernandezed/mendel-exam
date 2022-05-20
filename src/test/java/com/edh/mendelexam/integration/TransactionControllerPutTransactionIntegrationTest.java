@@ -36,7 +36,7 @@ public class TransactionControllerPutTransactionIntegrationTest extends MendelEx
         ResponseEntity<String> response = testRestTemplate.exchange(request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThatJson(response.getBody()).isEqualTo(FileReader.read("./src/test/resources/harness/responses/putTransaction_withValidTransaction_mustReturnCreatedTransaction.json"));
+        assertThatJson(response.getBody()).isEqualTo(FileReader.read("./src/test/resources/harness/responses/createTransactionStatusOk.json"));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class TransactionControllerPutTransactionIntegrationTest extends MendelEx
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(transactions.get(5L).getChilds()).extracting(TransactionNode::getId).isEqualTo(List.of(1L));
-        assertThatJson(response.getBody()).isEqualTo(FileReader.read("./src/test/resources/harness/responses/putTransaction_withValidTransaction_mustReturnCreatedTransaction.json"));
+        assertThatJson(response.getBody()).isEqualTo(FileReader.read("./src/test/resources/harness/responses/createTransactionStatusOk.json"));
     }
 
     @Test
@@ -110,5 +110,6 @@ public class TransactionControllerPutTransactionIntegrationTest extends MendelEx
         ResponseEntity<String> response = testRestTemplate.exchange(request, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThatJson(response.getBody()).inPath("$.status").isEqualTo("error");
     }
 }

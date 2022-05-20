@@ -1,25 +1,27 @@
 package com.edh.mendelexam.api.dtos.responses;
 
 public class TransactionResponseDto {
-    private final Long id;
-    private final String type;
-    private final double amount;
+    private final String status;
+    private final String message;
 
-    public TransactionResponseDto(Long id, String type, double amount) {
-        this.id = id;
-        this.type = type;
-        this.amount = amount;
+    private TransactionResponseDto(String status, String message) {
+        this.status = status;
+        this.message = message;
     }
 
-    public Long getId() {
-        return id;
+    public static TransactionResponseDto ok() {
+        return new TransactionResponseDto("ok", null);
     }
 
-    public String getType() {
-        return type;
+    public static TransactionResponseDto error(String message) {
+        return new TransactionResponseDto("error", message);
     }
 
-    public double getAmount() {
-        return amount;
+    public String getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

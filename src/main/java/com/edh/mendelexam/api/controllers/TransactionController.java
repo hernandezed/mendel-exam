@@ -36,7 +36,7 @@ public class TransactionController {
         if (transactionNodeBo.isUpdate()) {
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(map(transactionNodeBo), HttpStatus.CREATED);
+        return new ResponseEntity<>(TransactionResponseDto.ok(), HttpStatus.CREATED);
     }
 
     @GetMapping("/sum/{transactionId}")
@@ -51,9 +51,5 @@ public class TransactionController {
 
     private CreateTransactionBo map(Long id, CreateTransactionDto createTransactionDto) {
         return new CreateTransactionBo(id, createTransactionDto.getAmount(), createTransactionDto.getParentId(), createTransactionDto.getType());
-    }
-
-    private TransactionResponseDto map(TransactionNodeBo transactionNodeBo) {
-        return new TransactionResponseDto(transactionNodeBo.getId(), transactionNodeBo.getType(), transactionNodeBo.getAmount());
     }
 }
